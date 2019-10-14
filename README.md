@@ -1,1 +1,1 @@
-# standerd-erp
+标准版ERP
