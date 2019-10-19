@@ -60,7 +60,7 @@ class MemberController extends AdminController
     protected function form()
     {
         $form = new Form(new Members);
-
+        $form->display('id',__('商品编号'));
         $form->text('Names', __('姓名'));
         $form->mobile('Phone', __('手机号'));
         $form->decimal('Counts', __('累计消费金额'));

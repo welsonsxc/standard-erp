@@ -79,16 +79,4 @@ class CommodityController extends AdminController
         return $form;
     }
 
-    public function getCommodityForSalesOrderTable(Request $request){
-        $page = $request->get('page')-1;
-        $limit = $request->get('limit');
-        $code = 0;
-        $msg = '';
-        $count = Commodity::count();
-        $data = Commodity::offset($page*$limit)->limit($limit)->get();
-        $result['code'] = $code;
-
-        return response()->json(['code'=>$code, 'msg'=>$msg, 'count'=>$count, 'data'=>$data]);
-    }
-
 }
