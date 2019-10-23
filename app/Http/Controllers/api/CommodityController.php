@@ -115,11 +115,11 @@ class CommodityController extends BaseController
     public function CommodityOut(Request $request)
     {
         $data['list'] = '';
-        $requestData = $request->input('list');
+        $requestData = $request->input('data');
 
         $rules = [
-            'CommodityId' => 'required',
-            'Num' => 'required',
+            'id' => 'required',
+            'number' => 'required',
         ];
 
         $commodity_out_id = CommodityOut::max('id') + 1;
@@ -133,25 +133,27 @@ class CommodityController extends BaseController
             }
 
             //修改商品数量
-            $commodity_id = $i['CommodityId'];
+            $commodity_id = $i['id'];
             $result = Commodity::find($commodity_id);
             if ($result == null) {
                 return $this->errorResponse('商品不存在');
             }
             $num = Commodity::where('id', $commodity_id)->value('Num');
-            if ($num - $i['Num'] < 0) {
+            if ($num - $i['number'] < 0) {
                 return $this->errorResponse('商品库存不足');
             }
 
-            $result = Commodity::find($commodity_id)->update(['Num' => $num - $i['Num']]);
+            $result = Commodity::find($commodity_id)->update(['Num' => $num - $i['number']]);
 
             if ($result == null) {
                 return $this->errorResponse('商品库存修改失败');
             }
 
             //添加商品销售记录
-            $i['id'] = $commodity_out_id;
-            $result = CommodityOut::create($i);
+            $sell_data['id'] = $commodity_id;
+            $sell_data['CommodityId'] = $i['id'];
+            $sell_data['Num'] = $i['number'];
+            $result = CommodityOut::create($sell_data);
 
             if ($result->count() == 0) {
                 return $this->errorResponse('商品销售记录添加失败');

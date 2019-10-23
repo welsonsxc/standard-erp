@@ -90,41 +90,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      tableData: [{
-        id: 1,
-        CommodityFull: "康师傅冰红茶",
-        StandardPrice: 5.78,
-        number: 1,
-        goodTotal: 5.78
-      }, {
-        id: 2,
-        CommodityFull: "农夫山泉矿泉水",
-        StandardPrice: 2,
-        number: 1,
-        goodTotal: 2
-      }, {
-        id: 4,
-        CommodityFull: "测试商品",
-        StandardPrice: 1,
-        number: 1,
-        goodTotal: 1
-      }],
+      tableData: [],
       numberValidateForm: {
         age: ''
-      }
+      },
+      total: 0
     };
   },
   methods: {
     //表格操作
+    count: function count() {
+      var totalPrice = 0;
+      this.tableData.forEach(function (val) {
+        totalPrice += val.number * val.StandardPrice;
+      });
+      this.total = parseFloat(totalPrice).toFixed(2);
+    },
     handleDelete: function handleDelete(index) {
       this.tableData.splice(index, 1);
       this.$message({
         type: 'success',
         message: '删除成功!'
       });
+      this.count();
     },
     handleInput: function handleInput(value) {
       if (null == value.number || value.number === "") {
@@ -132,6 +127,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       value.goodTotal = (value.number * value.StandardPrice).toFixed(2); //保留两位小数
+
+      this.count();
     },
     add: function add(value) {
       if (typeof value.number == 'string') {
@@ -140,6 +137,7 @@ __webpack_require__.r(__webpack_exports__);
 
       value.number += 1;
       value.goodTotal = (value.number * value.StandardPrice).toFixed(2);
+      this.count();
     },
     del: function del(value) {
       if (typeof value.number == 'string') {
@@ -151,6 +149,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       value.goodTotal = (value.number * value.StandardPrice).toFixed(2);
+      this.count();
     },
     //表单
     submitForm: function submitForm(formName) {
@@ -166,6 +165,8 @@ __webpack_require__.r(__webpack_exports__);
               exam[0]['goodTotal'] = res.data.data[0].StandardPrice;
 
               _this.tableData.push(exam[0]);
+
+              _this.count();
             } else {
               _this.$message({
                 type: 'error',
@@ -188,6 +189,38 @@ __webpack_require__.r(__webpack_exports__);
     },
     resetForm: function resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    settlement: function settlement() {
+      var _this2 = this;
+
+      axios.post('CommodityOut', {
+        data: this.tableData
+      }).then(function (res) {
+        if (res.data.message === '商品库存不足') {
+          _this2.$message({
+            type: 'error',
+            message: '商品库存不足!'
+          });
+        } else if (res.data.message === '商品不存在') {
+          _this2.$message({
+            type: 'error',
+            message: '不存在商品！'
+          });
+        } else if (res.data.message === '') {
+          alert('结算成功，订单编号：' + res.data.data);
+
+          _this2.tableData.splice(0, _this2.tableData.length);
+
+          _this2.count();
+
+          _this2.numberValidateForm.age = '';
+
+          _this2.age.focus();
+        }
+      })["catch"](function (err) {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
     }
   }
 });
@@ -405,6 +438,17 @@ var render = function() {
             })
           ],
           1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { attrs: { align: "center" } },
+          [
+            _c("h2", [_vm._v("总共消费：" + _vm._s(_vm.total) + "元")]),
+            _vm._v(" "),
+            _c("el-button", { on: { click: _vm.settlement } }, [_vm._v("结算")])
+          ],
+          1
         )
       ],
       1
@@ -416,7 +460,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h1", [_vm._v("小型超市管理系统")])])
+    return _c("div", { attrs: { align: "center" } }, [
+      _c("h1", [_vm._v("小型超市管理系统")])
+    ])
   }
 ]
 render._withStripped = true
