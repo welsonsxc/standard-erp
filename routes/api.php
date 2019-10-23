@@ -22,6 +22,9 @@ Route::prefix('v1')->group(function () {
     });
 
     //商品列表
+    Route::get('/commodity/{id}', 'api\CommodityController@getCommodityInfo');
+
+    //商品列表
     Route::get('/commodity', 'api\CommodityController@getCommodityList');
 
     //销售商品

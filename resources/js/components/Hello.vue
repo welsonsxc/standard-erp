@@ -1,6 +1,10 @@
 <template>
     <div>
-        <p class="hello">{{ msg }}</p>
+        <h1>Test</h1>
+        <el-button @click="visible = true">测试</el-button>
+        <el-dialog v-model="visible">
+            <p>hello</p>
+        </el-dialog>
     </div>
 </template>
 
@@ -8,15 +12,8 @@
     export default {
         data() {
             return {
-                msg: 'just test index  ~~~'
+                visible: false
             }
         }
     }
 </script>
-
-<style>
-    .hello {
-        font-size: 2em;
-        color: green;
-    }
-</style>

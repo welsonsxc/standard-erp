@@ -11,6 +11,27 @@ use Illuminate\Support\Facades\Validator;
 class CommodityController extends BaseController
 {
     /**
+     * 商品信息
+     * @param Request $request
+     * @param $id
+     * @return array
+     * @author lilou
+     */
+    public function getCommodityInfo(Request $request, $id)
+    {
+        $data = Commodity::select('id', 'CommodityFull', 'StandardPrice')
+            ->where('id', $id)
+            ->get();
+        if ($data->count() != 0) {
+            return $this->successResponse($data);
+        }
+
+        return $this->errorResponse('获取商品信息失败');
+
+    }
+
+
+    /**
      * 商品列表
      * @param Request $request
      * @return array

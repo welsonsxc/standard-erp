@@ -27,10 +27,27 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import App from './App.vue';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css'
 
-import Hello from './components/Hello.vue'; // 引入Hello 组件
+Vue.use(ElementUI);
+Vue.config.productionTip = false;
+import router from './router/index.js';
+//axios
+import axios from 'axios'
 
-const app = new Vue({
+axios.defaults.baseURL = 'http://127.0.0.1:8080/api/v1/';  //设置一个类似base_url的请求路径
+global.axios = axios;  //设置一个全局axios便于调用
+
+// const app = new Vue({
+//     el: '#app',
+//     router,
+//     render: h => h(App)
+// });
+
+new Vue({
     el: '#app',
-    render: h => h(Hello)
+    router,
+    render: h => h(App)
 });
