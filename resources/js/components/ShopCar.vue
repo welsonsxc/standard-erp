@@ -18,6 +18,8 @@
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('numberValidateForm')">提交</el-button>
                     <el-button @click="resetForm('numberValidateForm')">重置</el-button>
+                    <span>总共消费：{{total}}元</span>
+                    <el-button @click="settlement">结算</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -73,10 +75,6 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div align="center">
-                <h2>总共消费：{{total}}元</h2>
-                <el-button @click="settlement">结算</el-button>
-            </div>
         </div>
     </div>
 
@@ -171,31 +169,39 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
+            //结算
             settlement: function () {
-                axios.post('CommodityOut', {
-                    data: this.tableData
-                }).then((res) => {
-                    if (res.data.message === '商品库存不足') {
-                        this.$message({
-                            type: 'error',
-                            message: '商品库存不足!'
-                        });
-                    } else if (res.data.message === '商品不存在') {
-                        this.$message({
-                            type: 'error',
-                            message: '不存在商品！'
-                        });
-                    } else if (res.data.message ===''){
-                        alert('结算成功，订单编号：' + res.data.data);
-                        this.tableData.splice(0,this.tableData.length);
-                        this.count();
-                        this.numberValidateForm.age = '';
-                        this.age.focus();
-                    }
-                }).catch(function (err) {
-                    // eslint-disable-next-line no-console
-                    console.log(err)
-                })
+                if (this.tableData === []) {
+                    this.$message({
+                        type: 'error',
+                        message: '不可以提交空数据'
+                    });
+                } else {
+                    axios.post('CommodityOut', {
+                        data: this.tableData
+                    }).then((res) => {
+                        if (res.data.message === '商品库存不足') {
+                            this.$message({
+                                type: 'error',
+                                message: '商品库存不足!'
+                            });
+                        } else if (res.data.message === '商品不存在') {
+                            this.$message({
+                                type: 'error',
+                                message: '不存在商品！'
+                            });
+                        } else if (res.data.message === '') {
+                            alert('结算成功，订单编号：' + res.data.data);
+                            this.tableData.splice(0, this.tableData.length);
+                            this.count();
+                            this.numberValidateForm.age = '';
+                        }
+                    }).catch(function (err) {
+                        // eslint-disable-next-line no-console
+                        console.log(err)
+                    })
+                }
+
             }
         },
     }

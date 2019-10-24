@@ -150,8 +150,8 @@ class CommodityController extends BaseController
             }
 
             //添加商品销售记录
-            $sell_data['id'] = $commodity_id;
-            $sell_data['CommodityId'] = $i['id'];
+            $sell_data['id'] = $commodity_out_id;
+            $sell_data['CommodityId'] =$commodity_id;
             $sell_data['Num'] = $i['number'];
             $result = CommodityOut::create($sell_data);
 

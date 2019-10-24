@@ -113743,19 +113743,13 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
+
+
 Vue.use(element_ui__WEBPACK_IMPORTED_MODULE_1___default.a);
 Vue.config.productionTip = false;
- //axios
-
-
 axios__WEBPACK_IMPORTED_MODULE_4___default.a.defaults.baseURL = 'http://127.0.0.1:8080/api/v1/'; //设置一个类似base_url的请求路径
 
 global.axios = axios__WEBPACK_IMPORTED_MODULE_4___default.a; //设置一个全局axios便于调用
-// const app = new Vue({
-//     el: '#app',
-//     router,
-//     render: h => h(App)
-// });
 
 new Vue({
   el: '#app',
@@ -113844,16 +113838,22 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   saveScrollPosition: true,
   routes: [{
+    name: 'index',
+    path: '/',
+    component: function component(resolve) {
+      return void __webpack_require__.e(/*! AMD require */ 0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/Index.vue */ "./resources/js/components/Index.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+    }
+  }, {
     name: 'hello',
     path: '/hello',
     component: function component(resolve) {
-      return void __webpack_require__.e(/*! AMD require */ 0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/Hello.vue */ "./resources/js/components/Hello.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      return void __webpack_require__.e(/*! AMD require */ 1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/Hello.vue */ "./resources/js/components/Hello.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
     }
   }, {
     name: 'shopcar',
     path: '/shopcar',
     component: function component(resolve) {
-      return void __webpack_require__.e(/*! AMD require */ 1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/ShopCar.vue */ "./resources/js/components/ShopCar.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+      return void __webpack_require__.e(/*! AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../components/ShopCar.vue */ "./resources/js/components/ShopCar.vue")]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
     }
   }]
 }));
