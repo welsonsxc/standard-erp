@@ -33,5 +33,6 @@ Route::prefix('v1')->group(function () {
     //商品入库
     Route::post('/CommodityIn','api\CommodityController@CommodityIn');
 
-
+    //订单查询
+    Route::get('/searchOrder/{id}','api\CommodityController@searchOrder');
 });

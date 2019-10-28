@@ -1,11 +1,45 @@
 <template>
     <div>
-        <el-row :gutter="20">
-            <el-col :span="6"><div class="grid-content bg-purple">入库管理</div></el-col>
-            <el-col :span="6"><div class="grid-content bg-purple">销售商品</div></el-col>
-            <el-col :span="6"><div class="grid-content bg-purple">会员管理</div></el-col>
-            <el-col :span="6"><div class="grid-content bg-purple">订单查询</div></el-col>
-        </el-row>
+
+        <el-container>
+            <el-header>小型超市管理系统</el-header>
+            <el-main>
+                <el-row :gutter="12">
+                    <el-col :span="12">
+                        <div class="grid-content bg-purple" align="center">
+                            <el-button type="primary" plain>
+                                <router-link to="/CommodityIn" >
+                                    入库管理
+                                </router-link>
+                            </el-button>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="grid-content bg-purple" align="center">
+                            <el-button type="primary" plain>
+                                <router-link to="/shopcar">
+                                    销售商品
+                                </router-link>
+                            </el-button>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="12">
+                    <el-col :span="12">
+                        <div class="grid-content bg-purple" align="center">
+                            <el-button type="primary" plain>
+                                <router-link to="/shopcar">
+                                    订单查询
+                                </router-link>
+                            </el-button>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-main>
+            <el-footer>俺是页脚</el-footer>
+        </el-container>
+
+
     </div>
 </template>
 
@@ -16,27 +50,53 @@
 </script>
 
 <style>
-    .el-row {
-        margin-bottom: 20px;
+    .el-header, .el-footer {
+        background-color: #B3C0D1;
+        color: #333;
+        text-align: center;
+        line-height: 60px;
     }
-    .el-col {
-        border-radius: 4px;
+
+    .el-aside {
+        background-color: #D3DCE6;
+        color: #333;
+        text-align: center;
+        line-height: 200px;
     }
-    .bg-purple-dark {
-        background: #99a9bf;
+
+    .el-main {
+        background-color: #E9EEF3;
+        color: #333;
+        text-align: center;
+        line-height: 160px;
     }
-    .bg-purple {
-        background: #d3dce6;
+
+    body > .el-container {
+        margin-bottom: 40px;
     }
-    .bg-purple-light {
-        background: #e5e9f2;
+
+    .el-container:nth-child(5) .el-aside,
+    .el-container:nth-child(6) .el-aside {
+        line-height: 260px;
     }
-    .grid-content {
-        border-radius: 4px;
-        min-height: 36px;
+
+    .el-container:nth-child(7) .el-aside {
+        line-height: 320px;
     }
-    .row-bg {
-        padding: 10px 0;
-        background-color: #f9fafc;
+
+    a:link {
+        font-size: 12px;
+        color: #000000;
+        text-decoration: none;
+    }
+    a:visited {
+        font-size: 12px;
+        color: #000000;
+        text-decoration: none;
+    }
+    a:hover {
+        font-size: 12px;
+        color: #999999;
+        text-decoration: underline;
     }
 </style>

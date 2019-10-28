@@ -11,14 +11,15 @@ export default new VueRouter({
             component: resolve => void(require(['../components/Index.vue'], resolve))
         },
         {
-            name: 'hello',
-            path: '/hello',
-            component: resolve => void(require(['../components/Hello.vue'], resolve))
-        },
-        {
             name: 'shopcar',
             path: '/shopcar',
             component: resolve => void(require(['../components/ShopCar.vue'], resolve))
+        },
+        {
+            name: 'CommodityIn',
+            path: '/CommodityIn',
+            component: resolve => void(require(['../components/CommodityIn.vue'], resolve))
         }
+
     ]
 });

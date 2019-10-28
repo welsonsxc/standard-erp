@@ -7,6 +7,7 @@ use App\CommodityIn;
 use App\CommodityOut;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use function MongoDB\BSON\toJSON;
 
 class CommodityController extends BaseController
 {
@@ -67,13 +68,13 @@ class CommodityController extends BaseController
     public function CommodityIn(Request $request)
     {
         $data['list'] = '';
-        $requestData = $request->input('list');
+        $requestData = $request->input('data');
 
         $rules = [
-            'CommodityId' => 'required',
-            'Num' => 'required',
+            'id' => 'required',
+            'number' => 'required',
         ];
-
+        $commodity_in_id = CommodityIn::max('id') + 1;
         foreach ($requestData as $i) {
             //验证有效性
             $validatorData = Validator::make($i, $rules);
@@ -83,27 +84,25 @@ class CommodityController extends BaseController
             }
 
             //修改商品数量
-            $commodity_id = $i['CommodityId'];
+            $commodity_id = $i['id'];
             $result = Commodity::where('id', $commodity_id)->value('Num');
-            $result = Commodity::find($commodity_id)->update(['Num' => $result + $i['Num']]);
+            $result = Commodity::find($commodity_id)->update(['Num' => $result + $i['number']]);
 
             if ($result == null) {
                 return $this->errorResponse('商品库存修改失败');
             }
 
             //添加商品入库记录
-            $commodity_in_id = CommodityIn::max('id') + 1;
-            $i['id'] = $commodity_in_id;
-            $result = CommodityIn::create($i);
+            $sell_data['id'] = $commodity_in_id;
+            $sell_data['CommodityId'] = $commodity_id;
+            $sell_data['Num'] = $i['number'];
+            $result = CommodityIn::create($sell_data);
 
             if ($result->count() == 0) {
                 return $this->errorResponse('商品入库记录失败');
             }
-
-
         }
         return $this->successResponse($commodity_in_id);
-
     }
 
     /**
@@ -121,9 +120,7 @@ class CommodityController extends BaseController
             'id' => 'required',
             'number' => 'required',
         ];
-
         $commodity_out_id = CommodityOut::max('id') + 1;
-
         foreach ($requestData as $i) {
             //验证有效性
             $validatorData = Validator::make($i, $rules);
@@ -150,19 +147,62 @@ class CommodityController extends BaseController
             }
 
             //添加商品销售记录
+
             $sell_data['id'] = $commodity_out_id;
-            $sell_data['CommodityId'] =$commodity_id;
+            $sell_data['CommodityId'] = $commodity_id;
             $sell_data['Num'] = $i['number'];
             $result = CommodityOut::create($sell_data);
 
             if ($result->count() == 0) {
                 return $this->errorResponse('商品销售记录添加失败');
             }
-
-
         }
+
         return $this->successResponse($commodity_out_id);
 
+    }
+
+    /**
+     * 订单查询
+     * @param Request $request
+     * @param $id
+     * @return array
+     */
+    public function searchOrder(Request $request, $id)
+    {
+        $data = [];
+        $temp = [];
+        $type = $request->input('type', 0);
+        if ($type == 0) {
+            $commodity = CommodityOut::select('CommodityId', 'Num')
+                ->where('id', $id)
+                ->get();
+            if ($commodity->count() != 0) {
+//                return $this->successResponse($commodity);
+                foreach ($commodity as $i) {
+                    $result = Commodity::select('id', 'CommodityFull', 'StandardPrice')
+                        ->where('id', $i['CommodityId'])
+                        ->get();
+
+                    $result[0]['number'] = $i['Num'];
+
+                    array_push($data, $result);
+                }
+
+                return $this->successResponse($data);
+            } else {
+                return $this->errorResponse('查询失败');
+            }
+        } else if ($type == 1) {
+            $data = CommodityIn::select('CommodityId', 'Num')
+                ->where('id', $id)
+                ->get();
+            if ($data->count() != 0) {
+                return $this->successResponse($data);
+            }
+        }
+
+        return $this->errorResponse('订单查询失败');
     }
 
 }

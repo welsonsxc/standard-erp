@@ -1,16 +1,14 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[1],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShopCar.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ShopCar.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommodityIn.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommodityIn.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -190,47 +188,53 @@ __webpack_require__.r(__webpack_exports__);
     resetForm: function resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    //结算
     settlement: function settlement() {
       var _this2 = this;
 
-      axios.post('CommodityOut', {
-        data: this.tableData
-      }).then(function (res) {
-        if (res.data.message === '商品库存不足') {
-          _this2.$message({
-            type: 'error',
-            message: '商品库存不足!'
-          });
-        } else if (res.data.message === '商品不存在') {
-          _this2.$message({
-            type: 'error',
-            message: '不存在商品！'
-          });
-        } else if (res.data.message === '') {
-          alert('结算成功，订单编号：' + res.data.data);
+      if (this.tableData === []) {
+        this.$message({
+          type: 'error',
+          message: '不可以提交空数据'
+        });
+      } else {
+        axios.post('CommodityIn', {
+          data: this.tableData
+        }).then(function (res) {
+          if (res.data.message === '商品库存不足') {
+            _this2.$message({
+              type: 'error',
+              message: '商品库存不足!'
+            });
+          } else if (res.data.message === '商品不存在') {
+            _this2.$message({
+              type: 'error',
+              message: '不存在商品！'
+            });
+          } else if (res.data.message === '') {
+            alert('结算成功，订单编号：' + res.data.data);
 
-          _this2.tableData.splice(0, _this2.tableData.length);
+            _this2.tableData.splice(0, _this2.tableData.length);
 
-          _this2.count();
+            _this2.count();
 
-          _this2.numberValidateForm.age = '';
-
-          _this2.age.focus();
-        }
-      })["catch"](function (err) {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
+            _this2.numberValidateForm.age = '';
+          }
+        })["catch"](function (err) {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+      }
     }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShopCar.vue?vue&type=template&id=38753b63&":
-/*!**********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ShopCar.vue?vue&type=template&id=38753b63& ***!
-  \**********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommodityIn.vue?vue&type=template&id=60cbc9d2&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CommodityIn.vue?vue&type=template&id=60cbc9d2& ***!
+  \**************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -309,7 +313,13 @@ var render = function() {
                     }
                   },
                   [_vm._v("重置")]
-                )
+                ),
+                _vm._v(" "),
+                _c("span", [_vm._v("总共添加：" + _vm._s(_vm.total) + "元")]),
+                _vm._v(" "),
+                _c("el-button", { on: { click: _vm.settlement } }, [
+                  _vm._v("结算")
+                ])
               ],
               1
             )
@@ -438,17 +448,6 @@ var render = function() {
             })
           ],
           1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { attrs: { align: "center" } },
-          [
-            _c("h2", [_vm._v("总共消费：" + _vm._s(_vm.total) + "元")]),
-            _vm._v(" "),
-            _c("el-button", { on: { click: _vm.settlement } }, [_vm._v("结算")])
-          ],
-          1
         )
       ],
       1
@@ -471,17 +470,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/components/ShopCar.vue":
-/*!*********************************************!*\
-  !*** ./resources/js/components/ShopCar.vue ***!
-  \*********************************************/
+/***/ "./resources/js/components/CommodityIn.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/CommodityIn.vue ***!
+  \*************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ShopCar_vue_vue_type_template_id_38753b63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShopCar.vue?vue&type=template&id=38753b63& */ "./resources/js/components/ShopCar.vue?vue&type=template&id=38753b63&");
-/* harmony import */ var _ShopCar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShopCar.vue?vue&type=script&lang=js& */ "./resources/js/components/ShopCar.vue?vue&type=script&lang=js&");
+/* harmony import */ var _CommodityIn_vue_vue_type_template_id_60cbc9d2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommodityIn.vue?vue&type=template&id=60cbc9d2& */ "./resources/js/components/CommodityIn.vue?vue&type=template&id=60cbc9d2&");
+/* harmony import */ var _CommodityIn_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CommodityIn.vue?vue&type=script&lang=js& */ "./resources/js/components/CommodityIn.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -491,9 +490,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ShopCar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ShopCar_vue_vue_type_template_id_38753b63___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ShopCar_vue_vue_type_template_id_38753b63___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _CommodityIn_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CommodityIn_vue_vue_type_template_id_60cbc9d2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CommodityIn_vue_vue_type_template_id_60cbc9d2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -503,38 +502,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/ShopCar.vue"
+component.options.__file = "resources/js/components/CommodityIn.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/ShopCar.vue?vue&type=script&lang=js&":
-/*!**********************************************************************!*\
-  !*** ./resources/js/components/ShopCar.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************/
+/***/ "./resources/js/components/CommodityIn.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/CommodityIn.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShopCar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ShopCar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShopCar.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShopCar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CommodityIn_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CommodityIn.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommodityIn.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CommodityIn_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/ShopCar.vue?vue&type=template&id=38753b63&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/ShopCar.vue?vue&type=template&id=38753b63& ***!
-  \****************************************************************************/
+/***/ "./resources/js/components/CommodityIn.vue?vue&type=template&id=60cbc9d2&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/CommodityIn.vue?vue&type=template&id=60cbc9d2& ***!
+  \********************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShopCar_vue_vue_type_template_id_38753b63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ShopCar.vue?vue&type=template&id=38753b63& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ShopCar.vue?vue&type=template&id=38753b63&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShopCar_vue_vue_type_template_id_38753b63___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CommodityIn_vue_vue_type_template_id_60cbc9d2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CommodityIn.vue?vue&type=template&id=60cbc9d2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CommodityIn.vue?vue&type=template&id=60cbc9d2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CommodityIn_vue_vue_type_template_id_60cbc9d2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShopCar_vue_vue_type_template_id_38753b63___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CommodityIn_vue_vue_type_template_id_60cbc9d2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
