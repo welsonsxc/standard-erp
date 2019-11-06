@@ -19,6 +19,7 @@
 					</template>
 					<span>订单金额：{{total}}元</span>
 					<el-button type="primary" @click="submitForm('numberValidateForm')">提交</el-button>
+					<el-button @click="resetForm('numberValidateForm')">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -29,18 +30,22 @@
 					style="width: 100%">
 				<el-table-column
 						prop="id"
-						label="id">
+						label="id"
+						align="center">
 				</el-table-column>
 				<el-table-column
 						prop="CommodityFull"
-						label="商品名称">
+						label="商品名称"
+						align="center">
 				</el-table-column>
 				<el-table-column
 						prop="StandardPrice"
-						label="单价">
+						label="单价"
+						align="center">
 				</el-table-column>
 				<el-table-column
-						label="数量">
+						label="数量"
+						align="center">
 					<template slot-scope="scope">
 						<div>
 							<el-input
@@ -125,7 +130,7 @@
 
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
-						// eslint-disable-next-line no-undef
+						this.tableData = [];
 						const url = 'searchOrder/' + this.numberValidateForm.age + '?type=' + this.type;
 						axios.get(url).then((res) => {
 							if (res.data.message === '') {
@@ -134,7 +139,6 @@
 									const exam = new Array(res.data.data['list'][i]);
 									exam[0]['number'] = 1;
 									exam[0]['goodTotal'] = exam[0]['StandardPrice'];
-									console.log(exam[0]);
 									this.tableData.push(exam[0]);
 								}
 								this.count();
@@ -160,7 +164,7 @@
 			//重置表格
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
-				this.data.tableData = '';
+				this.tableData = '';
 			},
 
 		},

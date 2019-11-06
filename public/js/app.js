@@ -3622,6 +3622,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3687,7 +3692,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           // eslint-disable-next-line no-undef
-          // this.data.tableData = '';
+          _this.tableData = [];
           var url = 'searchOrder/' + _this.numberValidateForm.age + '?type=' + _this.type;
           axios.get(url).then(function (res) {
             if (res.data.message === '') {
@@ -3726,7 +3731,7 @@ __webpack_require__.r(__webpack_exports__);
     //重置表格
     resetForm: function resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.data.tableData = '';
+      this.tableData = '';
     }
   }
 });
@@ -99630,6 +99635,18 @@ var render = function() {
                     }
                   },
                   [_vm._v("提交")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "el-button",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.resetForm("numberValidateForm")
+                      }
+                    }
+                  },
+                  [_vm._v("重置")]
                 )
               ],
               2
@@ -99651,18 +99668,24 @@ var render = function() {
             attrs: { data: _vm.tableData, border: "" }
           },
           [
-            _c("el-table-column", { attrs: { prop: "id", label: "id" } }),
-            _vm._v(" "),
             _c("el-table-column", {
-              attrs: { prop: "CommodityFull", label: "商品名称" }
+              attrs: { prop: "id", label: "id", align: "center" }
             }),
             _vm._v(" "),
             _c("el-table-column", {
-              attrs: { prop: "StandardPrice", label: "单价" }
+              attrs: {
+                prop: "CommodityFull",
+                label: "商品名称",
+                align: "center"
+              }
             }),
             _vm._v(" "),
             _c("el-table-column", {
-              attrs: { label: "数量" },
+              attrs: { prop: "StandardPrice", label: "单价", align: "center" }
+            }),
+            _vm._v(" "),
+            _c("el-table-column", {
+              attrs: { label: "数量", align: "center" },
               scopedSlots: _vm._u([
                 {
                   key: "default",
