@@ -40,7 +40,7 @@ axios.defaults.baseURL = 'http://127.0.0.1:8080/api/v1/';  //设置一个类似b
 global.axios = axios;  //设置一个全局axios便于调用
 
 new Vue({
-    el: '#app',
-    router,
-    render: h => h(App)
+	el: '#app',
+	router,
+	render: h => h(App)
 });

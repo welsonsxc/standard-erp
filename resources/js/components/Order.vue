@@ -3,20 +3,22 @@
 		<div>
 			<el-form :model="numberValidateForm" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item
-						label="商品id"
+						label="订单id"
 						prop="age"
 						:rules="[
-                          { required: true, message: '商品id不能为空'},
-                          { type: 'number', message: '商品id必须为数字值'}
+                          { required: true, message: '订单id不能为空'},
+                          { type: 'number', message: '订单id必须为数字值'}
                         ]"
 				>
 					<el-input type="age" v-model.number="numberValidateForm.age" autocomplete="off"></el-input>
 				</el-form-item>
 				<el-form-item>
+					<template>
+						<el-radio v-model="type" label="1">销售订单</el-radio>
+						<el-radio v-model="type" label="2">入库订单</el-radio>
+					</template>
+					<span>订单金额：{{total}}元</span>
 					<el-button type="primary" @click="submitForm('numberValidateForm')">提交</el-button>
-					<el-button @click="resetForm('numberValidateForm')">重置</el-button>
-					<span>总共添加：{{total}}元</span>
-					<el-button @click="settlement">结算</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -27,22 +29,18 @@
 					style="width: 100%">
 				<el-table-column
 						prop="id"
-						label="id"
-						align="center">
+						label="id">
 				</el-table-column>
 				<el-table-column
 						prop="CommodityFull"
-						label="商品名称"
-						align="center">
+						label="商品名称">
 				</el-table-column>
 				<el-table-column
 						prop="StandardPrice"
-						label="单价"
-						align="center">
+						label="单价">
 				</el-table-column>
 				<el-table-column
-						label="数量"
-						align="center">
+						label="数量">
 					<template slot-scope="scope">
 						<div>
 							<el-input
@@ -60,18 +58,6 @@
 						width="150"
 						prop="goodTotal">
 				</el-table-column>
-				<el-table-column
-						fixed="right"
-						label="操作"
-						width="100">
-					<template slot-scope="scope">
-						<el-button
-								size="mini"
-								type="danger"
-								@click="handleDelete(scope.$index)">删除
-						</el-button>
-					</template>
-				</el-table-column>
 			</el-table>
 		</div>
 	</div>
@@ -87,7 +73,8 @@
 				numberValidateForm: {
 					age: ''
 				},
-				total: 0
+				total: 0,
+				type: '1'
 			}
 		},
 		methods: {
@@ -133,17 +120,23 @@
 				this.count();
 			},
 
-			//表单
+			//提交表单
 			submitForm(formName) {
+
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						// eslint-disable-next-line no-undef
-						axios.get('commodity/' + this.numberValidateForm.age).then((res) => {
+						const url = 'searchOrder/' + this.numberValidateForm.age + '?type=' + this.type;
+						axios.get(url).then((res) => {
 							if (res.data.message === '') {
-								const exam = new Array(res.data.data[0]);
-								exam[0]['number'] = 1;
-								exam[0]['goodTotal'] = res.data.data[0].StandardPrice;
-								this.tableData.push(exam[0]);
+								const count = res.data.data['count'];
+								for (let i = 0; i < count; i++) {
+									const exam = new Array(res.data.data['list'][i]);
+									exam[0]['number'] = 1;
+									exam[0]['goodTotal'] = exam[0]['StandardPrice'];
+									console.log(exam[0]);
+									this.tableData.push(exam[0]);
+								}
 								this.count();
 							} else {
 								this.$message({
@@ -164,44 +157,12 @@
 					}
 				});
 			},
+			//重置表格
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
-				this.tableData = '';
+				this.data.tableData = '';
 			},
-			//结算
-			settlement: function () {
-				if (this.tableData === []) {
-					this.$message({
-						type: 'error',
-						message: '不可以提交空数据'
-					});
-				} else {
-					axios.post('CommodityIn', {
-						data: this.tableData
-					}).then((res) => {
-						if (res.data.message === '商品库存不足') {
-							this.$message({
-								type: 'error',
-								message: '商品库存不足!'
-							});
-						} else if (res.data.message === '商品不存在') {
-							this.$message({
-								type: 'error',
-								message: '不存在商品！'
-							});
-						} else if (res.data.message === '') {
-							alert('结算成功，订单编号：' + res.data.data);
-							this.tableData.splice(0, this.tableData.length);
-							this.count();
-							this.numberValidateForm.age = '';
-						}
-					}).catch(function (err) {
-						// eslint-disable-next-line no-console
-						console.log(err)
-					})
-				}
 
-			}
 		},
 	}
 </script>
