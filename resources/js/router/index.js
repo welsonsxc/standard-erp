@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import ShopCar from "../components/ShopCar";
 import CommodityIn from "../components/CommodityIn";
 import Order from "../components/Order";
+import Inlist from "../components/Inlist";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ export default new VueRouter({
 			name: 'Order',
 			path: '/Order',
 			component: Order
+		},
+		{
+			name: 'Inlist',
+			path: '/Inlist',
+			component: Inlist
 		}
 
 	]

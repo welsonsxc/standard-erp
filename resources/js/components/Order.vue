@@ -44,20 +44,25 @@
 						align="center">
 				</el-table-column>
 				<el-table-column
+						prop="number"
 						label="数量"
 						align="center">
-					<template slot-scope="scope">
-						<div>
-							<el-input
-									v-model="scope.row.number" @change="handleInput(scope.row)">
-								<el-button slot="prepend" @click="del(scope.row)"><i class="el-icon-minus"></i>
-								</el-button>
-								<el-button slot="append" @click="add(scope.row)"><i class="el-icon-plus"></i>
-								</el-button>
-							</el-input>
-						</div>
-					</template>
 				</el-table-column>
+<!--				<el-table-column-->
+<!--						label="数量"-->
+<!--						align="center">-->
+<!--					<template slot-scope="scope">-->
+<!--						<div>-->
+<!--							<el-input-->
+<!--									v-model="scope.row.number" @change="handleInput(scope.row)">-->
+<!--								<el-button slot="prepend" @click="del(scope.row)"><i class="el-icon-minus"></i>-->
+<!--								</el-button>-->
+<!--								<el-button slot="append" @click="add(scope.row)"><i class="el-icon-plus"></i>-->
+<!--								</el-button>-->
+<!--							</el-input>-->
+<!--						</div>-->
+<!--					</template>-->
+<!--				</el-table-column>-->
 				<el-table-column
 						label="小计"
 						width="150"
@@ -106,28 +111,8 @@
 				value.goodTotal = (value.number * value.StandardPrice).toFixed(2);//保留两位小数
 				this.count();
 			},
-			add: function (value) {
-				if (typeof value.number == 'string') {
-					value.number = parseInt(value.number);
-				}
-				value.number += 1;
-				value.goodTotal = (value.number * value.StandardPrice).toFixed(2);
-				this.count();
-			},
-			del: function (value) {
-				if (typeof value.number == 'string') {
-					value.number = parseInt(value.number);
-				}
-				if (value.number > 1) {
-					value.number -= 1;
-				}
-				value.goodTotal = (value.number * value.StandardPrice).toFixed(2);
-				this.count();
-			},
-
 			//提交表单
 			submitForm(formName) {
-
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						this.tableData = [];
@@ -137,8 +122,7 @@
 								const count = res.data.data['count'];
 								for (let i = 0; i < count; i++) {
 									const exam = new Array(res.data.data['list'][i]);
-									exam[0]['number'] = 1;
-									exam[0]['goodTotal'] = exam[0]['StandardPrice'];
+									exam[0]['goodTotal'] = (exam[0]['number'] * exam[0]['StandardPrice']).toFixed(2);
 									this.tableData.push(exam[0]);
 								}
 								this.count();
@@ -165,6 +149,7 @@
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
 				this.tableData = '';
+				this.total = 0;
 			},
 
 		},

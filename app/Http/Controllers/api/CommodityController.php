@@ -6,6 +6,7 @@ use App\Commodity;
 use App\CommodityIn;
 use App\CommodityOut;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CommodityController extends BaseController
@@ -207,4 +208,26 @@ class CommodityController extends BaseController
 		return $this->errorResponse('error');
 	}
 
+	public function Commodity_out_list(Request $request)
+	{
+		$data['list'] = [];
+		$list = DB::table('commodity_out')
+			->select('CommodityId', DB::raw('SUM(Num) as sum'))
+			->where('created_at', '!=', null)
+			->groupBy('CommodityId')
+			->get();
+
+		if ($list->count() != 0) {
+			foreach ($list as $i) {
+				$result = Commodity::select('id', 'CommodityFull', 'StandardPrice')
+					->where('id', $i->CommodityId)
+					->get();
+				$result[0]['number'] = $i->sum;
+				array_push($data['list'], $result[0]);
+			}
+			$data['count'] = $list->count();
+			return $this->successResponse($data);
+		}
+		return $this->errorResponse('获取商品销售列表失败');
+	}
 }

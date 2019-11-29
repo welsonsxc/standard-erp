@@ -97,7 +97,7 @@ EOT;
 
         $content->row(function (Row $row) {
             $row->column(4, new Widgets\InfoBox("&nbsp;", 'users', 'aqua', '/admin/commodities', '商品管理'));
-            $row->column(4, new Widgets\InfoBox('&nbsp;', 'shopping-cart', 'green', '/admin/suppliers', '供应商管理'));
+            $row->column(4, new Widgets\InfoBox('&nbsp;', 'shopping-cart', 'green', '/admin/commodity-out', '销售管理'));
             $row->column(4, new Widgets\InfoBox('&nbsp;', 'book', 'yellow', '/admin/commodity-ins', '入库管理'));
         });
 //            $content->body(new Box('Bar chart', view('admin.chartjs')));

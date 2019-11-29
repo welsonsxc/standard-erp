@@ -35,4 +35,9 @@ Route::prefix('v1')->group(function () {
 
 	//订单查询
 	Route::get('/searchOrder/{id}', 'api\CommodityController@searchOrder');
+
+	//销售排行
+	Route::get('/Commodity_out_list','api\CommodityController@Commodity_out_list');
+
+
 });

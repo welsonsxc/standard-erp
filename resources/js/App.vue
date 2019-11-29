@@ -20,6 +20,11 @@
 							<el-menu-item index="2-1">订单查询</el-menu-item>
 						</router-link>
 					</el-menu-item-group>
+					<el-menu-item-group>
+						<router-link to="/Inlist">
+							<el-menu-item index="2-2">销售排行</el-menu-item>
+						</router-link>
+					</el-menu-item-group>
 				</el-submenu>
 			</el-menu>
 		</el-aside>

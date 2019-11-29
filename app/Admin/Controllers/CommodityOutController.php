@@ -29,8 +29,7 @@ class CommodityOutController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('CommodityId', __('商品id'));
         $grid->column('Num', __('商品数量'));
-        $grid->column('Price', __('价格'));
-        $grid->column('Date', __('入库日期'));
+		$grid->column('updated_at','操作时间');
 
         return $grid;
     }
@@ -48,8 +47,6 @@ class CommodityOutController extends AdminController
         $show->field('id', __('Id'));
         $show->field('CommodityId', __('商品id'));
         $show->field('Num', __('商品数量'));
-        $show->field('Price', __('价格'));
-        $show->field('Date', __('入库日期'));
 
         return $show;
     }
@@ -65,8 +62,6 @@ class CommodityOutController extends AdminController
 
         $form->number('CommodityId', __('商品id'));
         $form->number('Num', __('商品数量'));
-        $form->decimal('Price', __('价格'));
-        $form->datetime('Date', __('入库日期'))->default(date('Y-m-d H:i:s'));
 
         return $form;
     }

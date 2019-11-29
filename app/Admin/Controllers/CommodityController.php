@@ -32,7 +32,6 @@ class CommodityController extends AdminController
         $grid->column('StandardPrice', __('商品单价'));
         $grid->column('Num',__('商品数量'));
         $grid->column('Code', __('商品编码'));
-        $grid->column('Provider',__('供应商编号'));
         $grid->column('Image', __('商品图片'))->display(function ($name) {
             return "<img srcset='/upload/$name' width='50px' height='50px'>";
         });
@@ -54,7 +53,6 @@ class CommodityController extends AdminController
         $show->field('StandardPrice', __('商品单价'));
         $show->field('Num', __('商品数量'));
         $show->field('Code', __('商品编码'));
-        $show->field('Provider', __('供应商编号'));
         $show->field('Image', __('商品图片'))->image('/upload/');
 
         return $show;
